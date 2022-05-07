@@ -1,63 +1,61 @@
+~ Theme * 1 * Iocla ~
+
+Code written by: Necula Eduard Ionut 322 CA
 
 
-																					~Tema *1* Iocla~ 
+Implementations:
 
-Cod scris de: Necula Eduard Ionut 322 CA
+1) int iocla_printf (const char * format, ...)
 
+Features:
+a) The iocla_printf () function receives the format from the user:
+% d -> int
+% x -> integer hexadecimal
+% u -> whole without sign
+% c -> char
+% s -> string
+%% -> display%
+/ t -> tab
+/ n -> next line
+b) For each format, the function displays on the screen the corresponding value read from iocla_printf
+ex: iocla_printf ("% d", 5) // display 5, which is integer in base 10
+^^
+| | ----- 5 should be displayed on the screen, depending on the format
+| _______ format
 
-	Implementari:
+ex: iocla_printf ("% c", 66) // display B, 66 is ASCII code for B
+^^
+| | ----- 66 should be displayed on the screen, depending on the format
+| _______ format
 
-1) int iocla_printf(const char *format, ...)
-
-	Functionalitati:
-		a) Functia iocla_printf() primeste formatul de la utilizator:
-			%d -> intreg
-			%x -> intreg hexazecimal
-			%u -> intreg fara semn
-			%c -> char
-			%s ->string (sir de caractere)
-			%% -> afisez %
-			/t ->tab
-			/n ->next line
-		b) Pentru fiecare format in parte functia afiseaza la ecran valoarea corespunzatoare citita din iocla_printf
-			ex: iocla_printf("%d", 5) // afisez 5, care este intreg in baza 10
-							   ^   ^
-							   |   |-----5 trebuie afisat la ecran, in functie de format
-							   |_______formatul
-
-			ex: iocla_printf("%c", 66) // afisez B, 66 este cod ASCII pt B
-							   ^   ^
-							   |   |-----66 trebuie afisat la ecran, in functie de format
-						   	   |_______formatul
-
-		c)functia iocla_printf returneaza numarul de caractere afisate la ecran
-			ex: int c = iocla_printf("ccc"); //c = 3
+c) the iocla_printf function returns the number of characters displayed on the screen
+ex: int c = iocla_printf ("ccc"); // c = 3
 
 
-2) char *schimbareBaza(int baza_de_numaratie, unsigned int num_de_convertit) 
+2) char * changeBase (int count_base, unsigned int convert_number)
 
-	Functia schimbareBaza transforma un num_de_convertit intr-o baza_de_numaratie si returneaza un sir de caractere cu numarul schimbat in baza dorita.
+The ChangeBase function converts a converted_name to a count_base and returns a string with the number changed in the desired database.
 
-		ex: char *sir = schimbare(20, 10); //transform numarul 20 in baza 10, rezultatul final fiind 20
+ex: char * sir = change (20, 10); // transform the number 20 into base 10, the final result being 20
 
-3) static int write_stdout(const char *token, int length) //functie data in schelet
-	Functie de afisare a caracterele la stdout, functia returneaza numarul de caractere afisate la stdout.
+3) static int write_stdout (const char * token, int length) // skeletal data function
+Function to display characters in stdout, the function returns the number of characters displayed in stdout.
 
 
-Explicare cod:
+Code explanation:
 
-	1. Se citeste caracter cu caracter din format-ul primit de la utilizator, formatul initializat cu va_start. (va_start(arg, format);)
-	2. Orice caracter care nu este %, este afisat la ecran si numarat intr-o variabila number_of_ch. Number_of_ch va fi intors ca return daca este mai mare ca 0, altfel se returneaza -1.
-	3. Daca se ajunge la caracterul %, urmatorul caracter citit duce intr-un switch, care verifica ce fel de caracter se citeste mai departe: d, c, s, u, x, %.
+1. It reads character by character from the format received from the user, the format initialized with va_start. (va_start (arg, format);)
+2. Any character other than% is displayed on the screen and counted in a number_of_ch variable. Number_of_ch will be returned as a return if it is greater than 0, otherwise -1 is returned.
+3. If the% character is reached, the next character read leads to a switch, which checks what kind of character is read further: d, c, s, u, x,%.
 
-		3.1. Pentru tipul "d", se face conversia in baza 10 a intregului, in functie daca este pozitiv sau negativ. Dupa conversie, se afiseaza cu functia write_stdout, si se incrementeaza number_of_ch.
-		3.2  Pentru tipul "c", se face conversia la char. Dupa conversie, se afiseaza cu functia write_stdout, si se incrementeaza number_of_ch cu 1.
-		3.3  Pentru tipul "s", se afiseaza sirul cu write_stdout, si se incrementeaza number_of_ch cu lungimea sirului.
-		3.4	 Pentru tipul "u", se face conversia la unsigned int in baza 10, se afiseaza cu write_stdout, si se incrementeaza number_of_ch.
-		3.5  Pentru tipul "x", se face conversia la intreg hexazecimal in baza 16, se afiseaza cu write_stdout, si se incrementeaza number_of_ch.
-		3.6  Pentru %% se afiseaza % cu write_stdout, si se incrementeaza number_of_ch.
+3.1. For type "d", the base 10 is converted to the integer, depending on whether it is positive or negative. After conversion, it is displayed with the write_stdout function, and number_of_ch is incremented.
+3.2 For type "c", the char is converted. After conversion, it is displayed with the write_stdout function, and incremented number_of_ch by 1.
+3.3 For type "s", the string with write_stdout is displayed, and the number_of_ch is incremented by the length of the string.
+3.4 For type "u", convert to unsigned int in base 10, display with write_stdout, and increment number_of_ch.
+3.5 For type "x", convert to the full hexadecimal in base 16, display with write_stdout, and increment number_of_ch.
+3.6 For %%% is displayed with write_stdout, and number_of_ch is incremented.
 
-	4. Functia are grija sa nu interfereze cu '\n'. Daca se ajunge la caracterul '\n', se trece pe urmatoarea linie, apoi codul continua.
-	5. Functia are grija sa nu interfereze cu '\t'. Daca se ajunge la caracterul '\t', se afiseaza un tab, apoi codul continua. Se incrementeaza number_of_ch;
-	6. Dupa ce se citeste un format (ex: "%d"), cu ajutorul lui va_arg, se citeste din iocla_printf, urmatorul int. Int-ul se prelucreaza apoi se afiseaza la ecran. (vezi 3.1 - 3.6)
-	7. Programul se opreste cand se ajunge la terminatorul de sir '/0'.
+4. The function is careful not to interfere with '\ n'. If the '\ n' character is reached, go to the next line, then the code continues.
+5. The function is careful not to interfere with '\ t'. If the '\ t' character is reached, a tab is displayed, then the code continues. Increasing number_of_ch;
+6. After reading a format (ex: "% d"), with the help of va_arg, read from iocla_printf, the following int. The int is processed and then displayed on the screen. (see 3.1 - 3.6)
+7. The program stops when the string terminator '/ 0' is reached.
